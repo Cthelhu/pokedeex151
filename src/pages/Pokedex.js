@@ -1,11 +1,11 @@
 import React from 'react';
+import PokedexHeader from '../components/PokedexHeader';
 
 const Pokedex = () => {
-  
     return (
-    <header className='bg-red'>
-      <h1>Pokedex asasd</h1>
-    </header>
+    <div>
+      <PokedexHeader/>
+    </div>
   );
 };
 
