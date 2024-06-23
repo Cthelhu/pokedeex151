@@ -1,15 +1,23 @@
-import './App.css';
-import home from './pages/Home';
-import Home from './pages/Home';
-
-
+import React from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import "./App.css";
+import Home from "./pages/Home";
+import Pokedex from "./pages/Pokedex";
 
 function App() {
   return (
-   <Home/>
+    <BrowserRouter>
+      
+        <Routes>
+          <Route index element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/pokedex" element={<Pokedex />} />
+         
+        </Routes>
+    
+    </BrowserRouter>
   );
 }
 
 export default App;
-
-
