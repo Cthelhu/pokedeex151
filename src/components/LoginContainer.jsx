@@ -2,8 +2,12 @@ import logoPokedex from "../img/pokemon_logo.png";
 import LoginForm from "./LoginForm";
 import LoginToggle from "./LoginToggle";
 import RegisterForm from "./RegisterForm";
+import { useState } from "react";
 
 const LoginContainer = () => {
+
+  const [hidden, setHidden] = useState(false)
+
   return (
     <div className="shadow-2xl mt-10 rounded-[20px]  min-w-32 justify-center px-6 py-12 lg:px-8 bg-white">
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -14,11 +18,17 @@ const LoginContainer = () => {
         </h2>
       </div>
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <LoginToggle/>
+        <LoginToggle 
+        hidden={hidden}
+        setHidden={setHidden}/>
       </div>
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <LoginForm/>
-        <RegisterForm/>
+        <LoginForm 
+        hidden={hidden}
+        setHidden={setHidden} />
+        <RegisterForm
+        hidden={hidden}
+        setHidden={setHidden} />
       </div>
     </div>
   );

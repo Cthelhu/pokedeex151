@@ -1,21 +1,19 @@
 import React from "react";
 import { useNavigate } from 'react-router-dom';
-import Pokedex from "../pages/Pokedex";
-
-const LoginForm = () => {
+const LoginForm = ({ hidden }) => {
   const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const username = event.target.username.value;
     const password = event.target.password.value;
-    if (username === 'admin' && password === '123') {
-      navigate('../Pokedex');
+    if (username === "admin" && password === "123") {
+      navigate("../Pokedex");
     }
   };
-  
+
   return (
-    <div>
+    <div className={hidden ? "hidden" : ""}>
       <form onSubmit={handleSubmit}>
         <div className="flex items-center text-lg mb-6 md:mb-8">
           <svg
@@ -55,4 +53,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default LoginForm

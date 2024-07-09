@@ -1,9 +1,9 @@
 import React from "react";
 
-const RegisterForm = () => {
+const RegisterForm = ({ hidden }) => {
   return (
     <div>
-      <form className="hidden">
+      <form className={hidden ? "" : "hidden"}>
         <div className="flex items-center text-lg mb-6 md:mb-8">
           <svg
             className="absolute ml-3 fill-gray-400"
@@ -50,8 +50,8 @@ const RegisterForm = () => {
           />
         </div>
 
-        <button className="bg-[#E75757] font-medium p-2 md:p-4 text-white uppercase w-full">
-          Iniciar sesión
+        <button className="bg-[#48D0B0] font-medium p-2 md:p-4 text-white uppercase w-full">
+          Registrarse 
         </button>
       </form>
     </div>
