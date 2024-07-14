@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const PokemonIMG = ({ pokemonId }) => {
+const PokemonIMG = ({ pokemonId, className }) => {
   const [imageUrl, setImageUrl] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -30,7 +30,7 @@ const PokemonIMG = ({ pokemonId }) => {
   }
 
   return (
-    <img src={imageUrl} alt={`Pokemon ${pokemonId}`} />
+    <img src={imageUrl} alt={`Pokemon ${pokemonId}`} className={className} />
   );
 };
 

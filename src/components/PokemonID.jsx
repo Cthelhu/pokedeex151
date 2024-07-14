@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const PokemonID = ({ pokemonId }) => {
+const PokemonID = ({ pokemonId, className }) => {
   const [id, setId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -30,8 +30,8 @@ const PokemonID = ({ pokemonId }) => {
   }
 
   return (
-    <div className='bg-red-500'>
-      {id}
+    <div className={className} >
+      #{id}
     </div>
   );
 };

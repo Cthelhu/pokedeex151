@@ -1,21 +1,40 @@
-import React, {useState} from 'react';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const PokedexSearch = () => {
- 
-    return (
-        <div className='flex Items-center'>
-        <input  
-          type="text" 
-          placeholder="Buscar Pókemon" 
-          className='px-[80px] py-[5px] text-center border-solid border-2 border-gray-400 rounded-[100px]'
-        />
-        <button className='ml-[10px] px-[20px] py-[5px]  bg-[#E75757] text-white rounded-[100px]' 
-          //style={{ padding: '10px', marginLeft: '10px', fontSize: '16px' }}
-        >
-          Buscar
-        </button>
-      </div>
-  )
-}
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
 
-export default PokedexSearch
+  const handleSearch = () => {
+    if (searchTerm.trim() !== "") {
+      navigate(`/pokemon/${searchTerm.toLowerCase()}`);
+    }
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
+  };
+
+  return (
+    <div className="flex items-center">
+      <input
+        type="text"
+        placeholder="Buscar Pokémon"
+        className="px-[80px] py-[5px] text-center border-solid border-2 border-gray-400 rounded-[100px]"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        onKeyDown={handleKeyDown}
+      />
+      <button
+        className="ml-[10px] px-[20px] py-[5px] bg-red-500 text-white font-semibold rounded-full shadow-md hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-400 focus:ring-opacity-75"
+        onClick={handleSearch}
+      >
+        Buscar
+      </button>
+    </div>
+  );
+};
+
+export default PokedexSearch;

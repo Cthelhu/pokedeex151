@@ -22,43 +22,56 @@ const typeColors = {
   fairy: 'bg-pink-300',
 };
 
-const PokemonType = ({ pokemonId }) => {
-    const [types, setTypes] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-  
-    useEffect(() => {
-      const fetchPokemonTypes = async () => {
-        try {
-          const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
-          setTypes(response.data.types.map(typeInfo => typeInfo.type.name));
-          setLoading(false);
-        } catch (err) {
-          setError(err);
-          setLoading(false);
-        }
-      };
-  
-      fetchPokemonTypes();
-    }, [pokemonId]);
-  
-    if (loading) {
-      return <p>Loading...</p>;
-    }
-  
-    if (error) {
-      return <p>Error loading Pokémon data</p>;
-    }
-  
-    return (
-      <div className='flex flex-col '>
-        {types.map((type, index) => (
-          <div key={index} className={` capitalize text-white font-medium rounded-full text-center shadow-lg shadow-black-200/50 m-1 py-2 ${typeColors[type]}`}>
-            {type}
-          </div>
-        ))}
-      </div>
-    );
-  };
-  
-  export default PokemonType;
+const PokemonType = ({ pokemonId, className }) => {
+  const [types, setTypes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchPokemonTypes = async () => {
+      try {
+        const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonId}`);
+        const typeUrls = response.data.types.map(typeInfo => typeInfo.type.url);
+        
+        const typeRequests = typeUrls.map(url => axios.get(url));
+        const typeResponses = await Promise.all(typeRequests);
+        
+        const spanishTypeNames = typeResponses.map(res => {
+          const spanishName = res.data.names.find(name => name.language.name === 'es');
+          return {
+            name: spanishName.name,
+            color: typeColors[res.data.name]
+          };
+        });
+
+        setTypes(spanishTypeNames);
+        setLoading(false);
+      } catch (err) {
+        setError(err);
+        setLoading(false);
+      }
+    };
+
+    fetchPokemonTypes();
+  }, [pokemonId]);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error loading Pokémon data</p>;
+  }
+
+  return (
+    <div className={className}>
+      {types.map((type, index) => (
+        <div key={index} className={`capitalize text-white font-medium rounded-full text-center shadow-lg shadow-black-200/50 m-1 py-2 ${type.color} p-2 mb-2`}>
+          {type.name}
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default PokemonType;

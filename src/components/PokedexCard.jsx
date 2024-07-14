@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 import PokemonName from "./PokemonName";
 import PokemonType from "./PokemonType";
 import PokemonIMG from "./PokemonIMG";
-import PokeballIcon from "../img/pokeball_icon.png";
 
 const PokedexCard = ({ pokemonId }) => {
   const [pokemon, setPokemon] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate(); // Hook para la navegación
 
   const typeColors = {
     normal: "bg-gradient-to-br from-gray-800 to-gray-500",
@@ -62,12 +63,20 @@ const PokedexCard = ({ pokemonId }) => {
       ? typeColors[pokemon.types[0].type.name]
       : typeColors["normal"];
 
+  // Función para manejar el clic en la card
+  const handleCardClick = () => {
+    navigate(`/pokemon/${pokemonId}`);
+  };
+
   return (
-    <div className={`grid grid-cols-2 w-[100%] h-[100%] p-5 rounded-[30px] ${backgroundColor}`}>
+    <div
+      className={`grid grid-cols-2 w-[100%] h-[100%] p-5 rounded-[30px] ${backgroundColor} cursor-pointer`}
+      onClick={handleCardClick} // Añadir el evento de clic
+    >
       <div className="flex-col">
         <PokemonName
           pokemonId={pokemonId}
-          className=" capitalize text-white text-[20pt] font-bold drop-shadow-2xl"
+          className="capitalize text-white text-[20pt] font-bold drop-shadow-2xl"
         />
         <div className="space-y-2 text-[15pt]">
           <PokemonType pokemonId={pokemonId} />
