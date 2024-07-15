@@ -1,14 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+
 const LoginForm = ({ hidden }) => {
   const navigate = useNavigate();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [message, setMessage] = useState('');
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const username = event.target.username.value;
-    const password = event.target.password.value;
-    if (username === "admin" && password === "123") {
-      navigate("../Pokedex");
+
+    try {
+      const response = await axios.post('http://localhost:5000/api/auth/login', {
+        username,
+        password,
+      });
+      
+      // Guarda el token y la información del usuario
+      localStorage.setItem('token', response.data.token); // Guarda el token
+      localStorage.setItem('user', JSON.stringify({
+        username: response.data.username, // Nombre de usuario de la respuesta
+        email: response.data.email, // Correo de la respuesta
+      }));
+
+      setMessage('Inicio de sesión exitoso');
+      navigate("/pokedex"); // Redirige a la Pokédex
+    } catch (error) {
+      const errorMessage = error.response?.data?.message || 'Error al iniciar sesión';
+      setMessage(errorMessage);
+      console.error(error);
     }
   };
 
@@ -28,6 +49,8 @@ const LoginForm = ({ hidden }) => {
             id="username"
             className="bg-gray-200 pl-12 py-2 md:py-4 focus:outline-none w-full"
             placeholder="NOMBRE DE USUARIO"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
         </div>
         <div className="flex items-center text-lg mb-6 md:mb-8">
@@ -43,14 +66,17 @@ const LoginForm = ({ hidden }) => {
             id="password"
             className="bg-gray-200 pl-12 py-2 md:py-4 focus:outline-none w-full"
             placeholder="CONTRASEÑA"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
         <button className="bg-[#E75757] font-medium p-2 md:p-4 text-white uppercase w-full">
           Iniciar sesión
         </button>
       </form>
+      {message && <p className="text-red-500">{message}</p>} {/* Mensaje de error */}
     </div>
   );
 };
 
-export default LoginForm
+export default LoginForm;

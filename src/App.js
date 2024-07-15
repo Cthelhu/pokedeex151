@@ -4,6 +4,7 @@ import "./App.css";
 import Home from "./pages/Home";
 import Pokedex from "./pages/Pokedex";
 import Pokemon from "./pages/Pokemon";
+import PrivateRoute from "./components/PrivateRoute"; // Importa tu PrivateRoute
 
 function App() {
   return (
@@ -11,8 +12,20 @@ function App() {
       <Routes>
         <Route index element={<Home />} />
         <Route path="/home" element={<Home />} />
-        <Route path="/pokedex" element={<Pokedex />} />
-        <Route path="/pokemon/:id" element={<Pokemon />} />
+        <Route
+          path="/pokedex"
+          element={
+            <PrivateRoute>
+              <Pokedex />
+            </PrivateRoute>
+          }
+        />
+        <Route 
+          path="/pokemon/:id" 
+          element={
+            <PrivateRoute>
+              <Pokemon />
+              </PrivateRoute>} />
       </Routes>
     </BrowserRouter>
   );
