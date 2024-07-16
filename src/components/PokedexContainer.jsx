@@ -2,10 +2,6 @@ import React from 'react'
 import PokedexCard from './PokedexCard'
 
 const PokedexContainer = () => {
-    //const pokedexCards = Array.from({ length: 151 }, (_, index) => (
-    //  <PokedexCard key={index} />
-    //));
-
     const pokemonIds = Array.from({ length: 151 }, (_, index) => index + 1);
   
     return (

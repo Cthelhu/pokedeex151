@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import PokemonName from "./PokemonName";
 import PokemonType from "./PokemonType";
 import PokemonIMG from "./PokemonIMG";
+import PokeballIcon from "../img/pokeball_icon.png";
 
 const PokedexCard = ({ pokemonId }) => {
   const [pokemon, setPokemon] = useState(null);
@@ -69,9 +70,10 @@ const PokedexCard = ({ pokemonId }) => {
   };
 
   return (
+    
     <div
       className={`grid grid-cols-2 w-[100%] h-[100%] p-5 rounded-[30px] ${backgroundColor} cursor-pointer`}
-      onClick={handleCardClick} // Añadir el evento de clic
+      onClick={handleCardClick} 
     >
       <div className="flex-col">
         <PokemonName
@@ -86,6 +88,7 @@ const PokedexCard = ({ pokemonId }) => {
         <PokemonIMG pokemonId={pokemonId} />
       </div>
     </div>
+  
   );
 };
 

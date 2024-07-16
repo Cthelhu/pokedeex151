@@ -5,9 +5,15 @@ const PokedexSearch = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     if (searchTerm.trim() !== "") {
-      navigate(`/pokemon/${searchTerm.toLowerCase()}`);
+      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${searchTerm.toLowerCase()}`);
+      
+      if (response.ok) {
+        navigate(`/pokemon/${searchTerm.toLowerCase()}`);
+      } else {
+        navigate("/nofound");
+      }
     }
   };
 
