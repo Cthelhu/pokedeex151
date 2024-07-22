@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 
 const LoginForm = ({ hidden }) => {
@@ -11,24 +10,39 @@ const LoginForm = ({ hidden }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    // Construye la URL completa de la solicitud
+    const apiUrl = `${process.env.REACT_APP_API_BASE_URL}/api/auth/login`;
+    console.log(`URL de la solicitud: ${apiUrl}`); // Imprime la URL de la solicitud
+
     try {
-      const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/auth/login`, {
-        username,
-        password,
+      const response = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username,
+          password,
+        }),
       });
+
+      if (!response.ok) {
+        throw new Error('Error al iniciar sesión');
+      }
+
+      const data = await response.json();
       
       // Guarda el token y la información del usuario
-      localStorage.setItem('token', response.data.token); // Guarda el token
+      localStorage.setItem('token', data.token); // Guarda el token
       localStorage.setItem('user', JSON.stringify({
-        username: response.data.username, // Nombre de usuario de la respuesta
-        email: response.data.email, // Correo de la respuesta
+        username: data.username, // Nombre de usuario de la respuesta
+        email: data.email, // Correo de la respuesta
       }));
 
       setMessage('Inicio de sesión exitoso');
       navigate("/pokedex"); // Redirige a la Pokédex
     } catch (error) {
-      const errorMessage = error.response?.data?.message || 'Error al iniciar sesión';
-      setMessage(errorMessage);
+      setMessage(error.message);
       console.error(error);
     }
   };
