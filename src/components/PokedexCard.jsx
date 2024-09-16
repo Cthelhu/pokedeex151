@@ -10,7 +10,7 @@ const PokedexCard = ({ pokemonId }) => {
   const [pokemon, setPokemon] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const navigate = useNavigate(); // Hook para la navegación
+  const navigate = useNavigate();
 
   const typeColors = {
     normal: "bg-gradient-to-br from-gray-800 to-gray-500",
@@ -58,9 +58,9 @@ const PokedexCard = ({ pokemonId }) => {
     return <p>Error loading Pokémon data</p>;
   }
 
-  // Obtener el color del fondo del primer tipo del Pokémon
+  // Validación adicional para evitar errores si pokemon o pokemon.types no están definidos
   const backgroundColor =
-    pokemon.types.length > 0
+    pokemon && pokemon.types && pokemon.types.length > 0
       ? typeColors[pokemon.types[0].type.name]
       : typeColors["normal"];
 
@@ -70,10 +70,9 @@ const PokedexCard = ({ pokemonId }) => {
   };
 
   return (
-    
     <div
       className={`grid grid-cols-2 w-[100%] h-[100%] p-5 rounded-[30px] ${backgroundColor} cursor-pointer`}
-      onClick={handleCardClick} 
+      onClick={handleCardClick}
     >
       <div className="flex-col">
         <PokemonName
@@ -88,7 +87,6 @@ const PokedexCard = ({ pokemonId }) => {
         <PokemonIMG pokemonId={pokemonId} />
       </div>
     </div>
-  
   );
 };
 
